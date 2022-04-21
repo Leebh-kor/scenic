@@ -78,7 +78,11 @@ def get_config(runlocal=''):
                              'B': 12,
                              'L': 24,
                              'H': 32}[version]
-  config.model.representation_size = None
+  config.model.representation_size = {'Ti': None,
+                                      'S': None,
+                                      'B': 768,
+                                      'L': None,
+                                      'H': None}[version]
   config.model.classifier = 'token'
   config.model.attention_dropout_rate = 0.
   config.model.dropout_rate = 0.1
@@ -107,7 +111,7 @@ def get_config(runlocal=''):
   base_lr = 3e-3
   config.lr_configs = ml_collections.ConfigDict()
   config.lr_configs.learning_rate_schedule = 'compound'
-  config.lr_configs.factors = 'constant*linear_warmup*linear_decay'
+  config.lr_configs.factors = 'constant*linear_warmup*cosine_decay'
   config.lr_configs.total_steps = total_steps
   config.lr_configs.end_learning_rate = 1e-5
   config.lr_configs.warmup_steps = 10_000
